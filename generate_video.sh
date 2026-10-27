@@ -140,24 +140,12 @@ import sys, re
 title = sys.argv[1].strip()
 words = title.split()
 
-# FIXED: Grabs the FIRST word instead of the last
 first = words[0].lower() if words else 'music'
 
-# Strip any weird punctuation from the title word
-first = re.sub(r'[^a-z0-9]', '', first)
+# Strip weird punctuation but KEEP numbers this time
+res = re.sub(r'[^a-z0-9]', '', first)
 
-# Convert digits to text
-num_map = {'1':'one', '2':'two', '3':'three', '4':'four', '5':'five', 
-           '6':'six', '7':'seven', '8':'eight', '9':'nine', '0':'zero'}
-res = ''.join(num_map.get(c, c) for c in first)
-
-# Fix spacing for time
-if res.endswith('am') and len(res) > 2:
-    res = res[:-2] + ' am'
-if res.endswith('pm') and len(res) > 2:
-    res = res[:-2] + ' pm'
-
-# Force strictly lowercase and append the period
+# Force strictly lowercase and append the period (No number-to-text conversion)
 final_text = f'{res}.'.lower()
 print(final_text)
 " "$SELECTED_TITLE")
@@ -172,7 +160,6 @@ fi
 
 export THUMBNAIL_FILE="$OUTPUT_DIR/thumbnail.jpg"
 
-# FIXED SQUISH: Forces aspect ratio increase to fill 1920x1080, then crops center.
 ffmpeg -i "$TMP_DIR/wallpaper.jpg" -vf "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,drawtext=fontfile=$FONT_FILE:text='$TARGET_WORD':fontsize=150:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2" -frames:v 1 "$THUMBNAIL_FILE" -y -loglevel error
 
 # --- 5. MERGE AUDIO ---
@@ -204,7 +191,6 @@ print(f'{intro} {mid} {num_mids} {outro} {fade_start}')
 
 BLENDED_MASTER="$TMP_DIR/blended_master.mp4"
 
-# FIXED SQUISH: Added scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080
 ffmpeg -loop 1 -framerate 24 -i "$TMP_DIR/wallpaper.jpg" \
   -stream_loop -1 -i "$ASSETS_DIR/scratches.mp4" -t 15 \
   -filter_complex "\
@@ -264,7 +250,6 @@ https://www.fiverr.com/hitblazz/promote-your-ambient-music-tracks
     # ---------------------------------------------------------
     echo "🧹 Cleaning up old releases (Keeping latest 3 for Zapier)..."
     
-    # List all releases, skip the 3 newest ones, and delete the rest
     gh release list --limit 100 | awk '{print $1}' | grep '^video-' | tail -n +4 | while read -r OLD_TAG; do
         if [ -n "$OLD_TAG" ]; then
             echo "Deleting old release: $OLD_TAG"
@@ -272,7 +257,6 @@ https://www.fiverr.com/hitblazz/promote-your-ambient-music-tracks
         fi
     done
     
-    # Delete leftover floating tags that aren't attached to a release
     git fetch --tags --force
     git tag -l "video-*" | sort -rV | tail -n +4 | while read -r LEFTOVER_TAG; do
         if [ -n "$LEFTOVER_TAG" ]; then
