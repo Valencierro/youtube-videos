@@ -7,12 +7,12 @@ OUTPUT_DIR="./output"
 export ASSETS_DIR="./assets"
 mkdir -p "$OUTPUT_DIR" "$ASSETS_DIR" "$TMP_DIR/audio"
 
-export WALLPAPER_FOLDER_ID="1PHFXixQ8F1CnTZbnBkz_hfa8-OqAKup8"
+export WALLPAPER_FOLDER_ID="149aORCWm0JSojnN8qswB8ol4g2zRgohf"
 export ARCHIVE_FOLDER_ID="190G9vBYRwQb4VqHGfmGExdjhH0phgA4t" 
 export AUDIO_FOLDER_ID="1IgGUF3cbHUU5YpG7s5QLKRBDQsuV81FU"
-export SCRATCHES_FOLDER_ID="1LJncnsEXisg5OepVpv88d-Z3-LPt_98A"
+export SCRATCHES_FOLDER_ID="1KFVM3On0ELnMAqbpaJbNdlLeI12V9Ln0"
 export SPOTIFY_FILE_ID="1fIcEuSGsSBaRWO9OsFZYCTcynhMs7XOh"
-export SPOTIFY_PLAYLIST="https://open.spotify.com/playlist/7de3PjT9RXz0qhzdXjl34c?go=1"
+export SPOTIFY_PLAYLIST="https://open.spotify.com/playlist/0s4PNkZa5d7asmDZdGKJAn?go=1"
 
 export MIN_DURATION=3600  
 export MAX_DURATION=3900  
